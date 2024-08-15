@@ -23,6 +23,20 @@ class Ppid extends RestController {
 		$response['message']='Hello';
 		$this->response( $response, 200 );
 	}
+
+	public function master_get()
+	{	
+		$array = array();
+		$city_raw = $this->Ppid_model->get_city_ppid();
+		$city_data = $city_raw->result();
+		
+		$array['kota'] = $city_data;
+		
+		$response['status'] = 200;
+		$response['error'] = false;
+		$response['message'] = $array;
+		$this->response( $response, 200 );
+	}
 	
 	public function ticket_post()
 	{
