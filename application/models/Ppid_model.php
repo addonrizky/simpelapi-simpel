@@ -1,8 +1,4 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-
-
-
-
 class PPid_model extends CI_Model
 {
 	public function generate_ticketid($kota, $prefix, $tglpengaduan)
@@ -155,6 +151,17 @@ class PPid_model extends CI_Model
 		$this->db->where('tglpengaduan >=',$t1);
 		$this->db->where('tglpengaduan <=',$t2);
 		
+		return $this->db->get();
+	}
+
+	public function get_city_ppid()
+	{
+		$this->db->select('nama_kota');
+		$this->db->from('desk_kota');
+		//$this->db->where('deleted', 0);
+		//$this->db->distinct();
+		$this->db->order_by('nama_kota', 'asc');
+
 		return $this->db->get();
 	}
 }
