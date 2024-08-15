@@ -38,11 +38,19 @@ class Ppid extends RestController {
 
 		$profesi_raw = $this->Ppid_model->get_profesi_ppid();
 		$profesi_data = $profesi_raw->result();
+
+		$cara_oleh_info_raw = $this->Ppid_model->get_olehinfo_ppid();
+		$cara_oleh_info = $cara_oleh_info_raw->result();
+
+		$direktorat_raw = $this->Ppid_model->get_direktorat_ppid();
+		$direktorat_data = $direktorat_raw->result();
 		
 		$array['kota'] = $city_data;
 		$array['kabupaten'] = $kabupaten_data;
 		$array['provinsi'] = $provinsi_data;
 		$array['profesi'] = $profesi_data;
+		$array['cara_oleh_info'] = $cara_oleh_info;
+		$array['direktorat_data'] = $direktorat_data;
 		
 		$response['status'] = 200;
 		$response['error'] = false;

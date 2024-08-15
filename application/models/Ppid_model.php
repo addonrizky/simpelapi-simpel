@@ -197,5 +197,28 @@ class PPid_model extends CI_Model
 
 		return $this->db->get();
 	}
+
+	public function get_olehinfo_ppid()
+	{
+		$this->db->select('id, name');
+		$this->db->from('desk_perolehan_info');
+		//$this->db->where('deleted', 0);
+		//$this->db->distinct();
+		$this->db->order_by('name', 'asc');
+
+		return $this->db->get();
+	}
+
+	public function get_direktorat_ppid()
+	{
+		$this->db->select('id, name, kota');
+		$this->db->from('desk_direktorat');
+		//$this->db->where('deleted', 0);
+		//$this->db->distinct();
+		$this->db->order_by('name', 'asc');
+
+		return $this->db->get();
+	}
+	
 }
 ?>
