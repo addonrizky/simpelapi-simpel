@@ -66,6 +66,23 @@ class PPid_model extends CI_Model
 		
 		return FALSE;
 	}
+
+	public function insert_drafts(&$item_data)
+	{
+		$this->db->insert('desk_drafts', $item_data);
+		$insert_id = $this->db->insert_id();
+
+   	return $insert_id;
+	}
+
+	public function insert_ppid_drafts(&$item_data)
+	{
+		$this->db->insert('desk_ppid_drafts', $item_data);
+		$insert_id = $this->db->insert_id();
+
+   	return $insert_id;
+	}
+	
 	
 	public function insert_ppid(&$item_data)
 	{
