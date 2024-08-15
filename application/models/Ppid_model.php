@@ -156,11 +156,44 @@ class PPid_model extends CI_Model
 
 	public function get_city_ppid()
 	{
-		$this->db->select('nama_kota');
+		$this->db->select('id, nama_kota');
 		$this->db->from('desk_kota');
 		//$this->db->where('deleted', 0);
 		//$this->db->distinct();
 		$this->db->order_by('nama_kota', 'asc');
+
+		return $this->db->get();
+	}
+
+	public function get_kabupaten_ppid()
+	{
+		$this->db->select('kode, nama');
+		$this->db->from('desk_kabupaten');
+		//$this->db->where('deleted', 0);
+		//$this->db->distinct();
+		$this->db->order_by('nama', 'asc');
+
+		return $this->db->get();
+	}
+
+	public function get_provinsi_ppid()
+	{
+		$this->db->select('kode, nama');
+		$this->db->from('desk_provinsi');
+		//$this->db->where('deleted', 0);
+		//$this->db->distinct();
+		$this->db->order_by('nama', 'asc');
+
+		return $this->db->get();
+	}
+
+	public function get_profesi_ppid()
+	{
+		$this->db->select('id, name');
+		$this->db->from('desk_profesi');
+		//$this->db->where('deleted', 0);
+		//$this->db->distinct();
+		$this->db->order_by('name', 'asc');
 
 		return $this->db->get();
 	}

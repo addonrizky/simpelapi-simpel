@@ -29,8 +29,20 @@ class Ppid extends RestController {
 		$array = array();
 		$city_raw = $this->Ppid_model->get_city_ppid();
 		$city_data = $city_raw->result();
+
+		$kabupaten_raw = $this->Ppid_model->get_kabupaten_ppid();
+		$kabupaten_data = $kabupaten_raw->result();
+
+		$provinsi_raw = $this->Ppid_model->get_provinsi_ppid();
+		$provinsi_data = $provinsi_raw->result();
+
+		$profesi_raw = $this->Ppid_model->get_profesi_ppid();
+		$profesi_data = $profesi_raw->result();
 		
 		$array['kota'] = $city_data;
+		$array['kabupaten'] = $kabupaten_data;
+		$array['provinsi'] = $provinsi_data;
+		$array['profesi'] = $profesi_data;
 		
 		$response['status'] = 200;
 		$response['error'] = false;
