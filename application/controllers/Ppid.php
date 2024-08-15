@@ -61,6 +61,10 @@ class Ppid extends RestController {
 		$response['message'] = $array;
 		$this->response( $response, 200 );
 	}
+
+	public function draftppid_post(){
+		print_r($this->post());
+	}
 	
 	public function ticket_post()
 	{
