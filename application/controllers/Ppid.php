@@ -204,7 +204,8 @@ class Ppid extends RestController {
 			"jenis" => "PPID",
 			"is_rujuk" => "1",
 			"direktorat" => $reqbody->ditujukan_unit,
-			"is_sent" => "0"
+			"is_sent" => "0",
+			"owner" => 1,
 		);
 
 		$draft_id = $this->Ppid_model->insert_drafts($data_desk_drafts);
