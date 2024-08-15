@@ -63,11 +63,9 @@ class Ppid extends RestController {
 	}
 
 	public function draftppid_post(){
-		print_r($this->post());
-
 		$response['status'] = 200;
 		$response['error'] = false;
-		$response['message'] = json_encode($this->post());
+		$response['message'] = $this->post();
 		$this->response( $response, 200 );
 	}
 	
