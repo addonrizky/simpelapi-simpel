@@ -234,4 +234,21 @@ class Api extends RestController {
 		$response['message'] = $array2;
 		$this->response( $response, 200 );
 	}
+
+	public function userwa_get($user_code)
+	{
+		$array = array();
+		$raw_data = $this->Api_model->get_userwa($user_code);
+		
+		
+		//$array['Pengaduan'] = number_format($data['P'] *100 / $total,2);
+		//$array['Permintaan Informasi'] = number_format($data['I'] *100 / $total,2);
+		//$array['Pengaduan'] = $data['P'];
+		//$array['Permintaan Informasi'] = $data['I'];
+		
+		$response['status'] = 200;
+		$response['error'] = false;
+		$response['message'] = $raw_data->row();
+		$this->response( $response, 200 );
+	}
 }
