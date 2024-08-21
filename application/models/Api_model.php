@@ -1,8 +1,4 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-
-
-
-
 class Api_model extends CI_Model
 {
 	
@@ -166,6 +162,18 @@ class Api_model extends CI_Model
 		return $this->db->get();
 	}
 
+	public function get_userwa($user_code)
+	{
+		//SELECT * FROM desk_userwa WHERE user_code = ? limit 1
+		$this->db->select('*');
+		$this->db->from('desk_userwa');
+		//$this->db->join('desk_categories','desk_categories.id=desk_tickets.kategori');
+		//$this->db->where('is_sent', 0);
+		$this->db->where('user_code',$user_code);
+		$this->db->limit(1);
+
+		return $this->db->get();
+	}
 
 }
 ?>
