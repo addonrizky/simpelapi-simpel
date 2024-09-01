@@ -91,6 +91,13 @@ class Ppid extends RestController {
 		if ($this->verification_token()) {
 			$reqbody = json_decode(json_encode($this->post()));
 
+			if(!isset($reqbody->user_id_admin) && $reqbody->user_id_admin == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "user id admin ppid perlu diisi";
+				$this->response( $response, 403 );
+			}
+
 			if(!isset($reqbody->kota) && $reqbody->kota == ""){
 				$response['status'] = 403;
 				$response['error'] = true;
@@ -230,7 +237,8 @@ class Ppid extends RestController {
 				"jenis" => "PPID",
 				"category" => 2,
 				"is_sent" => "0",
-				"owner" => $reqbody->ditujukan_unit,
+				"owner_dir" => $reqbody->ditujukan_unit,
+				"owner" => $reqbody->user_id_admin
 			);
 
 			$draft_id = $this->Ppid_model->insert_drafts($data_desk_drafts);
