@@ -65,6 +65,9 @@ class Ppid extends RestController {
 	
 			$direktorat_raw = $this->Ppid_model->get_direktorat_ppid();
 			$direktorat_data = $direktorat_raw->result();
+
+			$alasan_keberatan_raw = $this->Ppid_model->get_alasan_keberatan();
+			$alasan_keberatan_data = $alasan_keberatan_raw->result();
 			
 			$array['kota'] = $city_data;
 			$array['kabupaten'] = $kabupaten_data;
@@ -73,6 +76,7 @@ class Ppid extends RestController {
 			$array['cara_oleh_info'] = $cara_oleh_info;
 			$array['cara_dapat_info'] = $cara_dapat_info;
 			$array['direktorat_data'] = $direktorat_data;
+			$array['alasan_keberatan'] = $alasan_keberatan_data;
 			
 			$response['status'] = 200;
 			$response['error'] = false;
@@ -249,6 +253,168 @@ class Ppid extends RestController {
 				"cara_mendapat_salinan" => $reqbody->cara_mendapatkan_info,
 				"rincian" => $reqbody->rincian_informasi,
 				"tujuan" => $reqbody->tujuan_penggunaan,
+			);
+
+			$this->Ppid_model->insert_ppid_drafts($data_desk_ppid_drafts);
+
+			$response['status'] = 200;
+			$response['error'] = false;
+			$response['message'] = array(
+				"draft_id" => $draft_id
+			);
+			$this->response( $response, 200 );
+		} else {
+			$response['status'] = 403;
+			$response['error'] = true;
+			$response['message'] = "Authorization Failed";
+			$this->response( $response, 403 );
+		}
+	}
+
+	public function draftkeberatan_post(){
+		if ($this->verification_token()) {
+			$reqbody = json_decode(json_encode($this->post()));
+
+			if(!isset($reqbody->user_id_admin) && $reqbody->user_id_admin == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "user id admin ppid perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->kota) && $reqbody->kota == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "kota perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->tanggal_pengajuan) && $reqbody->tanggal_pengajuan == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "tanggal_pengajuan perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->nama) && $reqbody->nama == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "nama perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->alamat) && $reqbody->alamat == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "alamat perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->provinsi) && $reqbody->provinsi == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "provinsi perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->kabupaten) && $reqbody->kabupaten == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "kabupaten perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			// if(!isset($reqbody->pekerjaan) && $reqbody->pekerjaan == ""){
+			// 	$response['status'] = 403;
+			// 	$response['error'] = true;
+			// 	$response['message'] = "pekerjaan perlu diisi";
+			// 	$this->response( $response, 403 );
+			// }
+
+			if(!isset($reqbody->no_telepon) && $reqbody->no_telepon == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "no_telepon perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->email) && $reqbody->email == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "email perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->no_reg_keberatan) && $reqbody->no_reg_keberatan == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "No Registrasi Keberatan perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->kasus_posisi) && $reqbody->kasus_posisi == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "Kasus Posisi perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->alasan_keberatan) && $reqbody->alasan_keberatan == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "Alasan Keberatan perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			if(!isset($reqbody->tanggal_reg_keberatan) && $reqbody->tanggal_reg_keberatan == ""){
+				$response['status'] = 403;
+				$response['error'] = true;
+				$response['message'] = "Tanggal Reg Keberatan perlu diisi";
+				$this->response( $response, 403 );
+			}
+
+			// - Tanggal Pengajuan vs desk_drafts.tglpengaduan
+			// - Nama vs desk_drafts.iden_nama
+			// - Alamat vs desk_drafts.iden_alamat
+			// - Provinsi vs desk_drafts.iden_provinsi (text)
+			// - Kabupaten vs desk_drafts.iden_kota
+			// - Pekerjaan vs desk_drafts.iden_profesi
+			// - No Telepon vs desk_drafts.iden_telp
+			// - Email vs desk_drafts.iden_email
+			// - no Reg Permohonan vs desk_ppid_drafts.keberatan_no
+			// - Kasus Posisi vs desk_ppid_drafts.kasus_posisi
+			// - Alasan vs desk_ppid_drafts.alasan_keberatan (master data desk alasan keberatan)
+			// - Tanggal Reg Keberatan vs desk_ppid_drafts.keberatan_tgl
+
+			$data_desk_drafts = array(
+				"tglpengaduan" => $reqbody->tanggal_pengajuan,
+				"iden_nama" => $reqbody->nama,
+				"iden_alamat" => $reqbody->alamat,
+				"iden_provinsi" => $reqbody->provinsi,
+				"iden_kota" => $reqbody->kabupaten,
+				//"iden_profesi" => $reqbody->pekerjaan,
+				"iden_telp" => $reqbody->no_telepon,
+				"iden_email" => $reqbody->email,
+				"kota" => $reqbody->kota,
+				"jenis" => "PPID",
+				"category" => 3,
+				"is_sent" => "0",
+				"owner_dir" => $reqbody->ditujukan_unit,
+				"owner" => $reqbody->user_id_admin
+			);
+
+			$draft_id = $this->Ppid_model->insert_drafts($data_desk_drafts);
+
+			$data_desk_ppid_drafts = array(
+				"id" => $draft_id,
+				'kuasa_nama' => $reqbody->nama,
+				'kuasa_alamat' => $reqbody->alamat,
+				'kuasa_telp' => $reqbody->no_telepon,
+				'kuasa_email' => $reqbody->email,
+				"keberatan_no" => $reqbody->no_reg_keberatan,
+				"alasan_keberatan" => $reqbody->alasan_keberatan,
+				"kasus_posisi" => $reqbody->kasus_posisi,
+				"keberatan_tgl" => $reqbody->tanggal_reg_keberatan,
 			);
 
 			$this->Ppid_model->insert_ppid_drafts($data_desk_ppid_drafts);

@@ -247,6 +247,17 @@ class PPid_model extends CI_Model
 
 		return $this->db->get();
 	}
+
+	public function get_alasan_keberatan()
+	{
+		$this->db->select('kode, nama');
+		$this->db->from('desk_alasan_keberatan');
+		$this->db->where('deleted', 0);
+		//$this->db->distinct();
+		$this->db->order_by('kode', 'asc');
+
+		return $this->db->get();
+	}
 	
 }
 ?>
